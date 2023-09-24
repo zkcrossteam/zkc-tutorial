@@ -8,8 +8,22 @@ import {
   ZKCWeb3MetaMaskProvider,
 } from 'zkc-sdk';
 
-import initWasm, { WasmAPI } from '../wasm/example';
+import helloWasmExample from '../examples/hello-world/c/helloWorld.wasm';
+import wasmExample from '../examples/zkWasm/example.wasm';
+import { WasmSDK } from '../initWasm/wasmSDK';
 import styles from './page.module.css';
+
+export interface ZKWasmExample {
+  setBoard: (input: number) => void;
+  getBoard: (index: number) => number;
+  getResult: () => number;
+  init: () => void;
+}
+
+export interface HelloWorldExample {
+  add: (a: number, b: number) => number;
+  helloWorld: () => string;
+}
 
 const MyReactDice = dynamic(() => import('../components/MyReactDice'), {
   ssr: false,
@@ -17,13 +31,15 @@ const MyReactDice = dynamic(() => import('../components/MyReactDice'), {
 
 const zkcWasmServiceHelperBaseURI =
   'https://zkwasm-explorer.delphinuslab.com:8090';
-const md5 = '665272C6FD6E4148784BF1BD2905301F';
+
+const TUTORIAL_MD5 = '665272C6FD6E4148784BF1BD2905301F';
 
 export default function Home() {
   const [userAddress, setUserAddress] = useState('');
 
   const [diceArr, setDiceArr] = useState<number[]>([0, 0, 0]);
   const [sum, setSum] = useState(0);
+  const [message, setMessage] = useState('');
 
   // private inputs
   const witness = useMemo(
@@ -39,12 +55,22 @@ export default function Home() {
   const publicInputs = useMemo(() => [`0x${sum.toString(16)}:i64`], [sum]);
 
   useEffect(() => {
-    initWasm<WasmAPI>().then(({ init, setBoard, getResult }) => {
-      init();
-      diceArr.forEach(setBoard);
-      setSum(getResult);
-    });
+    WasmSDK.connect<ZKWasmExample>(wasmExample).then(
+      ({ exports: { init, setBoard, getResult } }) => {
+        init();
+        diceArr.forEach(setBoard);
+        setSum(getResult);
+      },
+    );
   }, [diceArr]);
+
+  useEffect(() => {
+    WasmSDK.connect<HelloWorldExample>(helloWasmExample).then(
+      ({ exports: { add, helloWorld } }) => {
+        setMessage(helloWorld);
+      },
+    );
+  });
 
   // Connect Metamask
   const onConnect = () =>
@@ -68,7 +94,7 @@ export default function Home() {
       // Signed information
       const info = {
         user_address: userAddress.toLowerCase(),
-        md5,
+        md5: TUTORIAL_MD5,
         public_inputs: publicInputs,
         private_inputs: witness,
       };
@@ -110,7 +136,6 @@ export default function Home() {
           proof.
         </p>
       </div>
-
       <div className="d-flex flex-column justify-content-center align-items-center py-5">
         {userAddress ? (
           <address className="mb-3">userAddress: {userAddress}</address>
@@ -137,7 +162,7 @@ export default function Home() {
             The sum is <strong>{sum}</strong>.
           </li>
           <li>
-            The image md5 is <code>{md5}</code>.
+            The image md5 is <code>{TUTORIAL_MD5}</code>.
           </li>
           <li>
             The public input is: <code>{publicInputs[0]}</code>.
@@ -158,6 +183,7 @@ export default function Home() {
           Submit ZK Proof
         </button>
       </div>
+      {message}sasa
     </main>
   );
 }

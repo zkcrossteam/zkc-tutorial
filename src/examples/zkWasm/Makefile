@@ -1,5 +1,5 @@
 LIBS  = -lkernel32 -luser32 -lgdi32 -lopengl32
-SDKDIR = ../../zkWasm-C
+SDKDIR = ../../../zkWasm-C
 CFLAGS = -Wall -I$(SDKDIR)/sdk/c/sdk/include/ -I$(SDKDIR)/sdk/c/hash/include/
 
 # Should be equivalent to your list of C files, if you don't build selectively
