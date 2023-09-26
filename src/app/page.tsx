@@ -8,7 +8,6 @@ import {
   ZKCWeb3MetaMaskProvider,
 } from 'zkc-sdk';
 
-import helloWasmExample from '../examples/hello-world/c/helloWorld.wasm';
 import wasmExample from '../examples/zkWasm/example.wasm';
 import { WasmSDK } from '../initWasm/wasmSDK';
 import styles from './page.module.css';
@@ -18,11 +17,6 @@ export interface ZKWasmExample {
   getBoard: (index: number) => number;
   getResult: () => number;
   init: () => void;
-}
-
-export interface HelloWorldExample {
-  add: (a: number, b: number) => number;
-  helloWorld: () => string;
 }
 
 const MyReactDice = dynamic(() => import('../components/MyReactDice'), {
@@ -39,7 +33,6 @@ export default function Home() {
 
   const [diceArr, setDiceArr] = useState<number[]>([0, 0, 0]);
   const [sum, setSum] = useState(0);
-  const [message, setMessage] = useState('');
 
   // private inputs
   const witness = useMemo(
@@ -63,14 +56,6 @@ export default function Home() {
       },
     );
   }, [diceArr]);
-
-  useEffect(() => {
-    WasmSDK.connect<HelloWorldExample>(helloWasmExample).then(
-      ({ exports: { add, helloWorld } }) => {
-        setMessage(helloWorld);
-      },
-    );
-  });
 
   // Connect Metamask
   const onConnect = () =>
@@ -183,7 +168,6 @@ export default function Home() {
           Submit ZK Proof
         </button>
       </div>
-      {message}sasa
     </main>
   );
 }

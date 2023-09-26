@@ -1,8 +1,9 @@
 
-__attribute__((visibility("default"))) char *helloWorld()
+int message[12] = {72, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100, 33};
+
+__attribute__((visibility("default"))) int helloWorld(int a)
 {
-  return "hello, world!\n";
-  return 0;
+  return message[a];
 }
 
 __attribute__((visibility("default"))) int add(int a, int b)

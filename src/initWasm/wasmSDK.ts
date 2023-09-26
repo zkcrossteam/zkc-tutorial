@@ -33,6 +33,6 @@ export class WasmSDK<T> {
   static async connect<T>(initWasm: InitWasm, options = DEFAULT_OPTIONS) {
     const wasmModule = await initWasm(options);
 
-    return new WasmSDK<T>(wasmModule.instance.exports as T);
+    return new WasmSDK<T>(wasmModule.instance.exports as T, options);
   }
 }
