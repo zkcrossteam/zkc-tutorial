@@ -68,7 +68,7 @@ This project will implement a dice game, in which the sum of the dice will be us
 
 #### Add SDK
 
-FFirst, you need to add the C SDK repository to the project, either directly in the project root folder by cloning it, or you can add the SDK repository as a Git submodule to the project.
+First, you need to add the C SDK repository to the project, either directly in the project root folder by cloning it, or you can add the SDK repository as a Git submodule to the project.
 
 If you want to clone the repository, execute the following command:
 
@@ -191,154 +191,6 @@ make
 
 ### Front End
 
-#### TypeScript
-
-If you are using TypeScript, you need to create three files:
-
-1. Create the file `types.d.ts`:
-
-```ts
-export interface MakeWasmOptions {
-  global: Record<string, any>;
-  env: {
-    memory: WebAssembly.Memory;
-    table: WebAssembly.Table;
-    abort: () => never;
-    require: (b: boolean | number) => void;
-    wasm_input: () => never;
-  };
-}
-
-export interface WasmModule {
-  instance: WebAssembly.Instance;
-  module: WebAssembly.Module;
-}
-```
-
-2. Create `packages.d.ts` and define the type for the `.wasm` file:
-
-```ts
-declare module '*.wasm' {
-  const initWasm: (
-    makeWasmOptions: import('./types').MakeWasmOptions,
-  ) => Promise<import('./types').WasmModule>;
-
-  export default initWasm;
-}
-```
-
-3. Create a TypeScript file to encapsulate functions that call functions in WASM:
-
-```typescript
-// example.ts
-import makeWasm from './example.wasm';
-import { WasmModule } from './types';
-
-const { Memory, Table } = WebAssembly;
-
-let instance: WasmModule['instance'];
-
-export interface WasmAPI {
-  setBoard: (input: number) => void;
-  getBoard: (index: number) => number;
-  getResult: () => number;
-  init: () => void;
-}
-
-async function initWasm<T = unknown>() {
-  if (instance != null) return instance.exports as T;
-
-  const wasmModule = await makeWasm({
-    global: {},
-    env: {
-      memory: new Memory({ initial: 10, maximum: 100 }),
-      table: new Table({ initial: 0, element: 'anyfunc' }),
-      abort: () => {
-        console.error('abort in wasm!');
-        throw new Error('Unsupported wasm api: abort');
-      },
-      require: b => {
-        if (!b) {
-          console.error('require failed');
-          throw new Error('Require failed');
-        }
-      },
-      wasm_input: () => {
-        console.error('wasm_input should not been called in non-zkwasm mode');
-        throw new Error('Unsupported wasm api: wasm_input');
-      },
-    },
-  });
-
-  console.log('module loaded', wasmModule);
-
-  /*
-  WebAssembly.instantiateStreaming(makeWasm, importObject).then(
-      (obj) => console.log(obj.instance.exports)
-  );
-  */
-
-  instance = wasmModule.instance;
-
-  return instance.exports as T;
-}
-
-export default initWasm;
-```
-
-You need to make the following changes to the above file:
-
-1. Confirm whether the import source file of `makeWasm` points to the previously created WASM;
-
-2. `WasmAPI` is the interface exposed by WASM to javascript, and it needs to be modified to what you expect;
-
-#### JavaScript
-
-If you are using JavaScript, you only need to create a single file:
-
-```js
-import makeWasm from './example.wasm';
-
-const { Memory, Table } = WebAssembly;
-let instance = null;
-
-export default async function () {
-  if (instance != null) {
-    return instance.exports;
-  } else {
-    module = await makeWasm({
-      global: {},
-      env: {
-        memory: new Memory({ initial: 10, limit: 100 }),
-        table: new Table({ initial: 0, element: 'anyfunc' }),
-        abort: () => {
-          console.error('abort in wasm!');
-          throw new Error('Unsupported wasm api: abort');
-        },
-        require: b => {
-          if (!b) {
-            console.error('require failed');
-            throw new Error('Require failed');
-          }
-        },
-        wasm_input: () => {
-          console.error('wasm_input should not been called in non-zkwasm mode');
-          throw new Error('Unsupported wasm api: wasm_input');
-        },
-      },
-    });
-    console.log('module loaded', module); // "3
-    /*
-    WebAssembly.instantiateStreaming(makeWasm, importObject).then(
-        (obj) => console.log(obj.instance.exports)
-    );
-    */
-    instance = module.instance;
-    return instance.exports;
-  }
-}
-```
-
 You need to make the following changes to the above file:
 
 1. Confirm whether the import source file of `makeWasm` points to the previously created WASM;
@@ -348,13 +200,16 @@ You need to make the following changes to the above file:
 Here is an example of calling `initWasm` on the front-end page:
 
 ```typescript
-import initWasm, { WasmAPI } from '../wasm/example';
+import wasmExample from '../examples/dice-game/demo/c/dice-game.wasm';
+import { WasmSDK } from '../initWasm/wasmSDK';
 
-initWasm<WasmAPI>().then(({ init, setBoard, getResult }) => {
-  init();
-  diceArr.forEach(setBoard);
-  setSum(getResult);
-});
+WasmSDK.connect<ZKWasmExample>(wasmExample).then(
+  ({ exports: { init, setBoard, getResult } }) => {
+    init();
+    diceArr.forEach(setBoard);
+    setSum(getResult);
+  },
+);
 ```
 
 #### Build Public Inputs And Witness

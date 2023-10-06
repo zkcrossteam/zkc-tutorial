@@ -8,7 +8,7 @@ import {
   ZKCWeb3MetaMaskProvider,
 } from 'zkc-sdk';
 
-import wasmExample from '../examples/zkWasm/example.wasm';
+import wasmExample from '../examples/dice-game/demo/c/dice-game.wasm';
 import { WasmSDK } from '../initWasm/wasmSDK';
 import styles from './page.module.css';
 
