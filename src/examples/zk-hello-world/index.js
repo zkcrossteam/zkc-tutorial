@@ -1,20 +1,20 @@
-import { WasmSDK } from '../../initWasm/wasmSDK';
-import ZKHelloWorldExample from './demo/c/zk-hello-world.wasm';
 import {
   withZKCWeb3MetaMaskProvider,
   ZKCWasmServiceHelper,
   ZKCWasmServiceUtil,
 } from 'zkc-sdk';
 
+import { WasmSDK } from '../../initWasm/wasmSDK';
+import ZKHelloWorldExample from './demo/c/zk-hello-world.wasm';
+
+const zkcWasmServiceHelperBaseURI =
+    'https://zkwasm-explorer.delphinuslab.com:8090',
+  TUTORIAL_MD5 = '665272C6FD6E4148784BF1BD2905301F';
+
 const runWasm = async () =>
   withZKCWeb3MetaMaskProvider(async provider => {
     // Whether the wallet has been connected
     if (!userAddress) return alert('Please connect your wallet.');
-
-    const zkcWasmServiceHelperBaseURI =
-      'https://zkwasm-explorer.delphinuslab.com:8090';
-
-    const TUTORIAL_MD5 = '665272C6FD6E4148784BF1BD2905301F';
 
     // load wasm module instance
     const { exports } = await WasmSDK.connect(ZKHelloWorldExample);

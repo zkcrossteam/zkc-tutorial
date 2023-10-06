@@ -10,10 +10,9 @@ This is a tutorial that implements Hello World in C and WebAssembly.
 
 #### WASM
 
-If you want to compile WASM, please install [Clang][8] and related software.
+If you want to compile WASM, please install [Clang][1] and related software.
 
-Because this repository's SDK uses Git submodules, cloning the SDK code is required.
-If you did not use `--recurse-submodules` during cloning this repository, use the following command to clone the submodule:
+Because this repository's SDK uses Git submodules, cloning the SDK code is required. If you did not use `--recurse-submodules` during cloning this repository, use the following command to clone the submodule:
 
 ```shell
 git submodule update --init
@@ -31,7 +30,7 @@ make
 
 ## From Zero to Hero
 
-In this section, we will provide a brief description of how to build this project. It is assumed that the reader is familiar with the C programming language and the front-end development environment. Basic concepts will not be covered in detail. For additional information about setting up the project's development environment, please refer to the document "[How to run this repository](#how-to-run-this-repository)".
+In this section, we will provide a brief description of how to build this project. It is assumed that the reader is familiar with the C programming language and the front-end development environment. Basic concepts will not be covered in detail. For additional information about setting up the project's development environment, please refer to the document "[How to run this repository][2]".
 
 ### Project Design
 
@@ -133,26 +132,25 @@ FLAGS = -flto -O3 -nostdlib -fno-builtin -ffreestanding -mexec-model=reactor --t
 all: example.wasm
 
 sdk.wasm:
-	sh $(SDKDIR)/sdk/scripts/build.sh sdk.wasm
+    sh $(SDKDIR)/sdk/scripts/build.sh sdk.wasm
 
 example.wasm: $(CFILES) sdk.wasm
-	$(CLANG) -o $@ $(CFILES) sdk.wasm $(FLAGS) $(CFLAGS)
+    $(CLANG) -o $@ $(CFILES) sdk.wasm $(FLAGS) $(CFLAGS)
 
 
 clean:
-	sh $(SDKDIR)/sdk/scripts/clean.sh
-	rm -f *.wasm *.wat
+    sh $(SDKDIR)/sdk/scripts/clean.sh
+    rm -f *.wasm *.wat
 ```
 
 You also need to make the following changes to the above:
 
-1. `SDKDIR` should point to the SDK directory that you downloaded earlier.
+1.  `SDKDIR` should point to the SDK directory that you downloaded earlier.
+2.  `CLANG` should be consistent with local Clang command.
 
-2. `CLANG` should be consistent with local Clang command.
+    > The `CLANG` specified in all Makefile files in the SDK should be consistent with the local Clang command. You can check this by searching for `CLANG`.
 
-   > The `CLANG` specified in all Makefile files in the SDK should be consistent with the local Clang command. You can check this by searching for `CLANG`.
-
-3. You can replace `example.wasm` with the name of the file you want to generate.
+3.  You can replace `example.wasm` with the name of the file you want to generate.
 
 #### Make
 
@@ -166,7 +164,7 @@ make
 
 You need to make the following changes to the above file:
 
-1. Confirm whether the import source file of `makeWasm` points to the previously created WASM;
+1.  Confirm whether the import source file of `makeWasm` points to the previously created WASM;
 
 #### Call Function in WASM at The Front End
 
@@ -245,22 +243,13 @@ const res = await endpoint.addProvingTask({ ...info, signature });
 
 ## More information
 
-- [ZKCross Document][11] _(Website)_
-- [Delphinus Tutorial 1: Create your first zkWasm application][12] _(Article)_
-- [ZK9: Web3 game development utilizing zkWASM virtual machine – Sinka Gao (Delphinus Lab)][13] _(Video)_ [PPT][14] _(PPT)_
+- [ZKCross Document][3] _(Website)_
+- [Delphinus Tutorial 1: Create your first zkWasm application][4] _(Article)_
+- [ZK9: Web3 game development utilizing zkWASM virtual machine – Sinka Gao (Delphinus Lab)][5] _(Video)_ [PPT][6] _(PPT)_
 
-[1]: https://github.com/zkcrossteam/ZKC-SDK
-[2]: https://www.typescriptlang.org/
-[3]: https://pnpm.io/
-[4]: https://nextjs.org/
-[5]: https://getbootstrap.com/docs/5.3/utilities/api/
-[6]: https://docs.github.com/en/actions
-[7]: https://vercel.com/home
-[8]: https://www.gnu.org/software/gnu-c-manual/gnu-c-manual.html
-[9]: https://clang.llvm.org/
-[10]: https://nodejs.org/en
-[11]: http://docs.zkcross.org/
-[12]: https://delphinuslab.com/2023/01/29/delphinus-tutorial-1-create-your-first-zkwasm-application/
-[13]: https://www.youtube.com/watch?v=dLZbfTWLGNI
-[14]: https://delphinuslab.com/2023/04/09/talk-was-given-in-zk-summit-9th-in-breakout-session/
-[15]: https://react.dev/
+[1]: https://www.gnu.org/software/gnu-c-manual/gnu-c-manual.html
+[2]: https://git-pager.avosapps.us/#how-to-run-this-repository
+[3]: http://docs.zkcross.org/
+[4]: https://delphinuslab.com/2023/01/29/delphinus-tutorial-1-create-your-first-zkwasm-application/
+[5]: https://www.youtube.com/watch?v=dLZbfTWLGNI
+[6]: https://delphinuslab.com/2023/04/09/talk-was-given-in-zk-summit-9th-in-breakout-session/

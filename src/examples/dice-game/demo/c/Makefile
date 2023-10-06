@@ -16,7 +16,6 @@ sdk.wasm:
 dice-game.wasm: $(CFILES) sdk.wasm
 	$(CLANG) -o $@ $(CFILES) sdk.wasm $(FLAGS) $(CFLAGS)
 
-
 clean:
 	sh $(SDKDIR)/sdk/scripts/clean.sh
 	rm -f *.wasm *.wat

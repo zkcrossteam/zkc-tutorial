@@ -2,15 +2,12 @@
 #include <stdbool.h>
 #include <zkwasmsdk.h>
 
-
 int luckyNumber=42;
 
 __attribute__((visibility("default"))) bool getLucky(int a)
 {
   return luckyNumber==a;
 }
-
-
 
 __attribute__((visibility("default")))
 int zkmain() { 

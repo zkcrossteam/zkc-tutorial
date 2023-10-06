@@ -8,9 +8,9 @@ This is a tutorial that implements Hello World in C and WebAssembly.
 
 ### Prerequisite
 
-#### [LLVM](https://llvm.org/)
+#### [LLVM][1]
 
-```bash
+```shell
 # for Mac
 brew install llvm
 # for win10
@@ -19,15 +19,15 @@ winget install -e --id LLVM.LLVM
 
 > Please make sure that the system environment variables have been added successfully
 
-#### [ZKC-SDK](https://github.com/zkcrossteam/ZKC-SDK)
+#### [ZKC-SDK][2]
 
-```bash
+```shell
 npm install zkc-sdk
 ```
 
 ### Implementation
 
-1. Create a file called `hello-world.c` :
+1.  Create a file called `hello-world.c` :
 
 ```c
 __attribute__((visibility("default"))) int add(int a, int b)
@@ -36,20 +36,20 @@ __attribute__((visibility("default"))) int add(int a, int b)
 }
 ```
 
-2. Compile that into a wasm module which will output a `hello-world.wasm` :
+2.  Compile that into a wasm module which will output a `hello-world.wasm` :
 
-```bash
+```shell
 clang --target=wasm32 --no-standard-libraries -Wl,--export-all -Wl,--no-entry -o hello-world.wasm hello-world.c
 ```
 
-3. Import ZKC-SDK and `hello-world.wasm` in `index.js`
+3.  Import ZKC-SDK and `hello-world.wasm` in `index.js`
 
 ```javascript
 import { WasmSDK } from '../../initWasm/wasmSDK';
 import helloWorldExample from './demo/c/hello-world.wasm';
 ```
 
-4. Load wasm module instance and call the add function export from wasm
+4.  Load wasm module instance and call the add function export from wasm
 
 ```javascript
 const runWasmAdd = async () => {
@@ -66,7 +66,7 @@ const runWasmAdd = async () => {
 runWasmAdd();
 ```
 
-5. Load `index.js` file in `index.html`:
+5.  Load `index.js` file in `index.html`:
 
 ```html
 <!doctype html>
@@ -84,3 +84,6 @@ runWasmAdd();
 ```
 
 ## Demo
+
+[1]: https://llvm.org/
+[2]: https://github.com/zkcrossteam/ZKC-SDK

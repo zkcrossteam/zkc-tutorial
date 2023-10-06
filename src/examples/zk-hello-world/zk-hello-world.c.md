@@ -8,9 +8,9 @@ This is a tutorial that implements ZK Hello World in C and WebAssembly.
 
 ### Prerequisite
 
-#### [LLVM](https://llvm.org/)
+#### [LLVM][1]
 
-```bash
+```shell
 # for Mac
 brew install llvm
 # for win10
@@ -19,9 +19,9 @@ winget install -e --id LLVM.LLVM
 
 > Please make sure that the system environment variables have been added successfully
 
-#### [ZKC-SDK](https://github.com/zkcrossteam/ZKC-SDK)
+#### [ZKC-SDK][2]
 
-```bash
+```shell
 npm install zkc-sdk
 ```
 
@@ -43,14 +43,12 @@ git submodule add git@github.com:zkcrossteam/zkWasm-C.git
 
 ### Implementation
 
-1. Create a file called `zk-hello-world.c` :
+1.  Create a file called `zk-hello-world.c` :
 
 ```c
-__attribute__((visibility("default"))) int add(int a, int b)
 #include <stdint.h>
 #include <stdbool.h>
 #include <zkwasmsdk.h>
-
 
 int luckyNumber=42;
 
@@ -58,8 +56,6 @@ __attribute__((visibility("default"))) bool getLucky(int a)
 {
   return luckyNumber==a;
 }
-
-
 
 __attribute__((visibility("default")))
 int zkmain() {
@@ -72,10 +68,9 @@ int zkmain() {
 
   return 0;
 }
-
 ```
 
-2. Create a Makefile
+2.  Create a Makefile
 
 ```Makefile
 LIBS  = -lkernel32 -luser32 -lgdi32 -lopengl32
@@ -91,43 +86,41 @@ FLAGS = -flto -O3 -nostdlib -fno-builtin -ffreestanding -mexec-model=reactor --t
 all: zk-hello-world.wasm
 
 sdk.wasm:
-	sh $(SDKDIR)/sdk/scripts/build.sh sdk.wasm
+    sh $(SDKDIR)/sdk/scripts/build.sh sdk.wasm
 
 zk-hello-world.wasm: $(CFILES) sdk.wasm
-	$(CLANG) -o $@ $(CFILES) sdk.wasm $(FLAGS) $(CFLAGS)
-
+    $(CLANG) -o $@ $(CFILES) sdk.wasm $(FLAGS) $(CFLAGS)
 
 clean:
-	sh $(SDKDIR)/sdk/scripts/clean.sh
-	rm -f *.wasm *.wat
+    sh $(SDKDIR)/sdk/scripts/clean.sh
+    rm -f *.wasm *.wat
 
 ```
 
-3. Compile that into a wasm module which will output a `zk-hello-world.wasm` :
+3.  Compile that into a wasm module which will output a `zk-hello-world.wasm` :
 
-```bash
+```shell
 make
 ```
 
-4. Import ZKC-SDK and `hello-world.wasm` in `index.js`
+4.  Import ZKC-SDK and `hello-world.wasm` in `index.js`
 
 ```javascript
 import { WasmSDK } from '../../initWasm/wasmSDK';
 import helloWorldExample from './hello-world.wasm';
 ```
 
-5. Load wasm module instance and call the getLucky function export from wasm
+5.  Load wasm module instance and call the getLucky function export from wasm
 
 ```javascript
+const zkcWasmServiceHelperBaseURI =
+    'https://zkwasm-explorer.delphinuslab.com:8090',
+  TUTORIAL_MD5 = '665272C6FD6E4148784BF1BD2905301F';
+
 const runWasm = async () =>
   withZKCWeb3MetaMaskProvider(async provider => {
     // Whether the wallet has been connected
     if (!userAddress) return alert('Please connect your wallet.');
-
-    const zkcWasmServiceHelperBaseURI =
-      'https://zkwasm-explorer.delphinuslab.com:8090';
-
-    const TUTORIAL_MD5 = '665272C6FD6E4148784BF1BD2905301F';
 
     // load wasm module instance
     const { exports } = await WasmSDK.connect(ZKHelloWorldExample);
@@ -196,3 +189,6 @@ Load `index.js` file in `index.html`:
 ```
 
 ## Demo
+
+[1]: https://llvm.org/
+[2]: https://github.com/zkcrossteam/ZKC-SDK

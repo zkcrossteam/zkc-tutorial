@@ -6,14 +6,14 @@
 
 - Front end
   - Language: [TypeScript v5][2]
-  - Component engine: [React v18][15]
+  - Component engine: [React v18][3]
   - Application framework: [Next.js v13][4]
   - CSS utility class: [Bootstrap v5][5]
-  - Package management tool: [pnpm][3]
-  - CI / CD: [GitHub Actions][6] + [Vercel][7]
+  - Package management tool: [pnpm][6]
+  - CI / CD: [GitHub Actions][7] + [Vercel][8]
 - WASM
-  - Language: [C][8]
-  - Compilation tool: [Clang][9]
+  - Language: [C][9]
+  - Compilation tool: [Clang][10]
 
 ## How To Run This Repository
 
@@ -27,7 +27,7 @@ cd ZKC-Tutorial
 
 ### Website
 
-If you want to run the website project, please install [Node.js][10] and [pnpm][3].
+If you want to run the website project, please install [Node.js][11] and [pnpm][12].
 
 ```shell
 pnpm i
@@ -37,10 +37,9 @@ pnpm dev
 
 ### WASM
 
-If you want to compile WASM, please install [Clang][8] and related software.
+If you want to compile WASM, please install [Clang][13] and related software.
 
-Because this repository's SDK uses Git submodules, cloning the SDK code is required.
-If you did not use `--recurse-submodules` during cloning this repository, use the following command to clone the submodule:
+Because this repository's SDK uses Git submodules, cloning the SDK code is required. If you did not use `--recurse-submodules` during cloning this repository, use the following command to clone the submodule:
 
 ```shell
 git submodule update --init
@@ -58,7 +57,7 @@ make
 
 ## From Zero to Hero
 
-In this section, we will provide a brief description of how to build this project. It is assumed that the reader is familiar with the C programming language and the front-end development environment. Basic concepts will not be covered in detail. For additional information about setting up the project's development environment, please refer to the document "[How to run this repository](#how-to-run-this-repository)".
+In this section, we will provide a brief description of how to build this project. It is assumed that the reader is familiar with the C programming language and the front-end development environment. Basic concepts will not be covered in detail. For additional information about setting up the project's development environment, please refer to the document "[How to run this repository][14]".
 
 ### Project Design
 
@@ -160,26 +159,25 @@ FLAGS = -flto -O3 -nostdlib -fno-builtin -ffreestanding -mexec-model=reactor --t
 all: example.wasm
 
 sdk.wasm:
-	sh $(SDKDIR)/sdk/scripts/build.sh sdk.wasm
+    sh $(SDKDIR)/sdk/scripts/build.sh sdk.wasm
 
 example.wasm: $(CFILES) sdk.wasm
-	$(CLANG) -o $@ $(CFILES) sdk.wasm $(FLAGS) $(CFLAGS)
+    $(CLANG) -o $@ $(CFILES) sdk.wasm $(FLAGS) $(CFLAGS)
 
 
 clean:
-	sh $(SDKDIR)/sdk/scripts/clean.sh
-	rm -f *.wasm *.wat
+    sh $(SDKDIR)/sdk/scripts/clean.sh
+    rm -f *.wasm *.wat
 ```
 
 You also need to make the following changes to the above:
 
-1. `SDKDIR` should point to the SDK directory that you downloaded earlier.
+1.  `SDKDIR` should point to the SDK directory that you downloaded earlier.
+2.  `CLANG` should be consistent with local Clang command.
 
-2. `CLANG` should be consistent with local Clang command.
+    > The `CLANG` specified in all Makefile files in the SDK should be consistent with the local Clang command. You can check this by searching for `CLANG`.
 
-   > The `CLANG` specified in all Makefile files in the SDK should be consistent with the local Clang command. You can check this by searching for `CLANG`.
-
-3. You can replace `example.wasm` with the name of the file you want to generate.
+3.  You can replace `example.wasm` with the name of the file you want to generate.
 
 #### Make
 
@@ -193,7 +191,7 @@ make
 
 You need to make the following changes to the above file:
 
-1. Confirm whether the import source file of `makeWasm` points to the previously created WASM;
+1.  Confirm whether the import source file of `makeWasm` points to the previously created WASM;
 
 #### Call Function in WASM at The Front End
 
@@ -272,22 +270,25 @@ const res = await endpoint.addProvingTask({ ...info, signature });
 
 ## More information
 
-- [ZKCross Document][11] _(Website)_
-- [Delphinus Tutorial 1: Create your first zkWasm application][12] _(Article)_
-- [ZK9: Web3 game development utilizing zkWASM virtual machine – Sinka Gao (Delphinus Lab)][13] _(Video)_ [PPT][14] _(PPT)_
+- [ZKCross Document][15] _(Website)_
+- [Delphinus Tutorial 1: Create your first zkWasm application][16] _(Article)_
+- [ZK9: Web3 game development utilizing zkWASM virtual machine – Sinka Gao (Delphinus Lab)][17] _(Video)_ [PPT][18] _(PPT)_
 
 [1]: https://github.com/zkcrossteam/ZKC-SDK
 [2]: https://www.typescriptlang.org/
-[3]: https://pnpm.io/
+[3]: https://react.dev/
 [4]: https://nextjs.org/
 [5]: https://getbootstrap.com/docs/5.3/utilities/api/
-[6]: https://docs.github.com/en/actions
-[7]: https://vercel.com/home
-[8]: https://www.gnu.org/software/gnu-c-manual/gnu-c-manual.html
-[9]: https://clang.llvm.org/
-[10]: https://nodejs.org/en
-[11]: http://docs.zkcross.org/
-[12]: https://delphinuslab.com/2023/01/29/delphinus-tutorial-1-create-your-first-zkwasm-application/
-[13]: https://www.youtube.com/watch?v=dLZbfTWLGNI
-[14]: https://delphinuslab.com/2023/04/09/talk-was-given-in-zk-summit-9th-in-breakout-session/
-[15]: https://react.dev/
+[6]: https://pnpm.io/
+[7]: https://docs.github.com/en/actions
+[8]: https://vercel.com/home
+[9]: https://www.gnu.org/software/gnu-c-manual/gnu-c-manual.html
+[10]: https://clang.llvm.org/
+[11]: https://nodejs.org/en
+[12]: https://pnpm.io/
+[13]: https://www.gnu.org/software/gnu-c-manual/gnu-c-manual.html
+[14]: https://git-pager.avosapps.us/#how-to-run-this-repository
+[15]: http://docs.zkcross.org/
+[16]: https://delphinuslab.com/2023/01/29/delphinus-tutorial-1-create-your-first-zkwasm-application/
+[17]: https://www.youtube.com/watch?v=dLZbfTWLGNI
+[18]: https://delphinuslab.com/2023/04/09/talk-was-given-in-zk-summit-9th-in-breakout-session/

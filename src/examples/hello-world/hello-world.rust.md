@@ -12,7 +12,7 @@ This is a tutorial that implements Hello World in Rust and WebAssembly.
 
 You will need the standard Rust toolchain, including rustup, rustc, and cargo.
 
-[Follow these instructions to install the Rust toolchain.](https://www.rust-lang.org/tools/install)
+[Follow these instructions to install the Rust toolchain.][1]
 
 The Rust and WebAssembly experience is riding the Rust release trains to stable! That means we don't require any experimental feature flags. However, we do require Rust 1.30 or newer.
 
@@ -20,25 +20,25 @@ The Rust and WebAssembly experience is riding the Rust release trains to stable!
 
 wasm-pack is your one-stop shop for building, testing, and publishing Rust-generated WebAssembly.
 
-Get [`wasm-pack`](https://rustwasm.github.io/wasm-pack/installer/) here!
+Get [`wasm-pack`][2] here!
 
-> If you are a Microsoft Windows 10 user, it is highly recommended to install [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install), everything will be much smoother!
+> If you are a Microsoft Windows 10 user, it is highly recommended to install [WSL2][3], everything will be much smoother!
 
-#### [ZKC-SDK](https://github.com/zkcrossteam/ZKC-SDK)
+#### [ZKC-SDK][4]
 
-```bash
+```shell
 npm install zkc-sdk
 ```
 
 ### Implementation
 
-1. Initialize the project:
+1.  Initialize the project:
 
-```bash
+```shell
 cargo init
 ```
 
-2. Edit our new Cargo.toml to implement wasm-pack
+2.  Edit our new Cargo.toml to implement wasm-pack
 
 ```toml
 [package]
@@ -54,7 +54,7 @@ crate-type = ["cdylib"]
 wasm-bindgen = "0.2"
 ```
 
-3. Lastly, let's take a quick peek inside at the src/ directory. Since we are building a library (lib) to be used by a larger application, we need to rename the src/main.rs to src/lib.rs. Go ahead and do that now before moving forward.
+3.  Lastly, let's take a quick peek inside at the src/ directory. Since we are building a library (lib) to be used by a larger application, we need to rename the src/main.rs to src/lib.rs. Go ahead and do that now before moving forward.
 
 Let's go ahead and replace src/lib.rs with the required use call as mentioned in the quickstart, as well as our add function:
 
@@ -72,22 +72,22 @@ pub fn add(a: i32, b: i32) -> i32 {
 }
 ```
 
-4. Compile that into a wasm module which will output a `hello-world.wasm` :
+4.  Compile that into a wasm module which will output a `hello-world.wasm` :
 
-```bash
+```shell
 wasm-pack build --target web
 ```
 
 This will output a `pkg/` directory containing our wasm module, wrapped in a js object.
 
-5. Import ZKC-SDK and `hello-world.wasm` in `index.js`
+5.  Import ZKC-SDK and `hello-world.wasm` in `index.js`
 
 ```javascript
 import { WasmSDK } from '../../initWasm/wasmSDK';
 import helloWorldExample from './demo/rust/hello-world_bg.wasm';
 ```
 
-6. Load wasm module instance and call the add function export from wasm
+6.  Load wasm module instance and call the add function export from wasm
 
 ```javascript
 const runWasmAdd = async () => {
@@ -104,7 +104,7 @@ const runWasmAdd = async () => {
 runWasmAdd();
 ```
 
-7. Load `index.js` file in `index.html`:
+7.  Load `index.js` file in `index.html`:
 
 ```html
 <!doctype html>
@@ -122,3 +122,8 @@ runWasmAdd();
 ```
 
 ## Demo
+
+[1]: https://www.rust-lang.org/tools/install
+[2]: https://rustwasm.github.io/wasm-pack/installer/
+[3]: https://learn.microsoft.com/en-us/windows/wsl/install
+[4]: https://github.com/zkcrossteam/ZKC-SDK

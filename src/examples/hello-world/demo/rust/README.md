@@ -2,6 +2,6 @@
 
 Compile with the following shell command
 
-```bash
+```shell
 wasm-pack build --target web
 ```
