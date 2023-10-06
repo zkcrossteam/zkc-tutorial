@@ -142,3 +142,8 @@ dist
 
 # vercel
 .vercel
+
+.vscode
+
+# wasm-pack build target file
+target/

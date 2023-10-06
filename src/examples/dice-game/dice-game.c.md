@@ -1,43 +1,16 @@
-# ZKC-Tutorial
+# Hello World!
 
-> A simple demo of [ZKC-SDK][1].
+## Overview
 
-## Technology Stack
+This is a tutorial that implements Hello World in C and WebAssembly.
 
-- Front end
-  - Language: [TypeScript v5][2]
-  - Component engine: [React v18][3]
-  - Application framework: [Next.js v13][4]
-  - CSS utility class: [Bootstrap v5][5]
-  - Package management tool: [pnpm][6]
-  - CI / CD: [GitHub Actions][7] + [Vercel][8]
-- WASM
-  - Language: [C][9]
-  - Compilation tool: [Clang][10]
+## Setup
 
-## How To Run This Repository
+### Prerequisite
 
-```shell
-git clone https://github.com/zkcrossteam/ZKC-Tutorial.git
+#### WASM
 
-cd ZKC-Tutorial
-```
-
-> **Notice:** If you want to compile WASM, it is **strongly recommended** that you pass the `--recurse-submodules` argument when executing the `git clone` command line (`git clone --recurse-submodules https://github.com/zkcrossteam/ZKC-Tutorial.git`).
-
-### Website
-
-If you want to run the website project, please install [Node.js][11] and [pnpm][12].
-
-```shell
-pnpm i
-
-pnpm dev
-```
-
-### WASM
-
-If you want to compile WASM, please install [Clang][13] and related software.
+If you want to compile WASM, please install [Clang][1] and related software.
 
 Because this repository's SDK uses Git submodules, cloning the SDK code is required. If you did not use `--recurse-submodules` during cloning this repository, use the following command to clone the submodule:
 
@@ -50,14 +23,14 @@ Make sure that the clang commands in all makefiles are the same as those used to
 > **Tips:** You can search for `CLANG` to check the settings of the clang command in the Makefile.
 
 ```shell
-cd src/wasm
+cd src/examples/dice-game/demo/c
 
 make
 ```
 
 ## From Zero to Hero
 
-In this section, we will provide a brief description of how to build this project. It is assumed that the reader is familiar with the C programming language and the front-end development environment. Basic concepts will not be covered in detail. For additional information about setting up the project's development environment, please refer to the document "[How to run this repository][14]".
+In this section, we will provide a brief description of how to build this project. It is assumed that the reader is familiar with the C programming language and the front-end development environment. Basic concepts will not be covered in detail. For additional information about setting up the project's development environment, please refer to the document "[How to run this repository][2]".
 
 ### Project Design
 
@@ -270,25 +243,13 @@ const res = await endpoint.addProvingTask({ ...info, signature });
 
 ## More information
 
-- [ZKCross Document][15] _(Website)_
-- [Delphinus Tutorial 1: Create your first zkWasm application][16] _(Article)_
-- [ZK9: Web3 game development utilizing zkWASM virtual machine – Sinka Gao (Delphinus Lab)][17] _(Video)_ [PPT][18] _(PPT)_
+- [ZKCross Document][3] _(Website)_
+- [Delphinus Tutorial 1: Create your first zkWasm application][4] _(Article)_
+- [ZK9: Web3 game development utilizing zkWASM virtual machine – Sinka Gao (Delphinus Lab)][5] _(Video)_ [PPT][6] _(PPT)_
 
-[1]: https://github.com/zkcrossteam/ZKC-SDK
-[2]: https://www.typescriptlang.org/
-[3]: https://react.dev/
-[4]: https://nextjs.org/
-[5]: https://getbootstrap.com/docs/5.3/utilities/api/
-[6]: https://pnpm.io/
-[7]: https://docs.github.com/en/actions
-[8]: https://vercel.com/home
-[9]: https://www.gnu.org/software/gnu-c-manual/gnu-c-manual.html
-[10]: https://clang.llvm.org/
-[11]: https://nodejs.org/en
-[12]: https://pnpm.io/
-[13]: https://www.gnu.org/software/gnu-c-manual/gnu-c-manual.html
-[14]: https://git-pager.avosapps.us/#how-to-run-this-repository
-[15]: http://docs.zkcross.org/
-[16]: https://delphinuslab.com/2023/01/29/delphinus-tutorial-1-create-your-first-zkwasm-application/
-[17]: https://www.youtube.com/watch?v=dLZbfTWLGNI
-[18]: https://delphinuslab.com/2023/04/09/talk-was-given-in-zk-summit-9th-in-breakout-session/
+[1]: https://www.gnu.org/software/gnu-c-manual/gnu-c-manual.html
+[2]: https://git-pager.avosapps.us/#how-to-run-this-repository
+[3]: http://docs.zkcross.org/
+[4]: https://delphinuslab.com/2023/01/29/delphinus-tutorial-1-create-your-first-zkwasm-application/
+[5]: https://www.youtube.com/watch?v=dLZbfTWLGNI
+[6]: https://delphinuslab.com/2023/04/09/talk-was-given-in-zk-summit-9th-in-breakout-session/

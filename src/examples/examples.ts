@@ -13,3 +13,7 @@ export interface WasmModule {
   instance: WebAssembly.Instance;
   module: WebAssembly.Module;
 }
+
+export type InitWasm = (
+  makeWasmOptions: MakeWasmOptions,
+) => Promise<WasmModule>;
